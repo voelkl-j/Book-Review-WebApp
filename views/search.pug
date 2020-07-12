@@ -1,0 +1,12 @@
+extends layout.pug
+
+block title
+    title Login
+    
+block content
+    h1 Hier Suchen
+    form(action="/search" method="post")
+        div(class="form-group")
+            label Buchsuche
+            input(type="text" class="form-control" name="sucheingabe")
+        button(type="submit" class="btn btn-dark") Suchen

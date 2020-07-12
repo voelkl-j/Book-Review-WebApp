@@ -34,6 +34,23 @@ app.get("/", function (req, res) {
     res.render("index");
 });
 
+app.get("/register", function (req, res) {
+    res.render("register");
+});
+
+app.get("/logout", function (req, res) {
+    res.render("logout");
+});
+
+//Zum Testen:
+app.post("/search", urlencodedParser, function(request, response) {
+    response.render("search");
+});
+
+app.get("/search", function (req, res) {
+    res.render("search");
+});
+
 app.listen(PORT, function () {
-    console.log(`Shopping App listening on Port ${PORT}`);
+    console.log(`Bookstore App listening on Port ${PORT}`);
 });
