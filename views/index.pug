@@ -5,11 +5,12 @@ block title
     
 block content
     h1 Hier einloggen:
-    form(action="/search" method="post")
+    form(action="/" method="post")
         div(class="form-group")
             label Benutzername
             input(type="text" class="form-control" name="benutzer")
         div(class="form-group")
             label Passwort
             input(type="password" class="form-control" name="passwort")
+            p(class="form-text text-danger") #{Fehler}
         button(type="submit" class="btn btn-dark") Login

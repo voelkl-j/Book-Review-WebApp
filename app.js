@@ -38,13 +38,25 @@ app.get("/register", function (req, res) {
     res.render("register");
 });
 
+app.post("/register", urlencodedParser, function(req, res){
+    dbClient.query("INSERT INTO users (benutzer, passwort) VALUES ($1, $2)", [req.body.benutzer, req.body.passwort], function (dbError, dbResponse) {
+                res.render("registersuccess");
+            });
+});
+
 app.get("/logout", function (req, res) {
     res.render("logout");
 });
 
 //Zum Testen:
-app.post("/search", urlencodedParser, function(request, response) {
-    response.render("search");
+app.post("/", urlencodedParser, function(req, res) {
+    dbClient.query("SELECT * FROM users WHERE benutzer=$1 AND passwort=$2", [req.body.benutzer, req.body.passwort], function(dbError, dbResponse){
+        if(dbResponse.rows.length===0){
+            var fehler= "Benutzername bzw. Passwort falsch";
+            res.render("index", {Fehler: fehler});
+        }
+        else res.redirect("/search");
+    })
 });
 
 app.get("/search", function (req, res) {
