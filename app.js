@@ -23,9 +23,11 @@ var app = express();
 
 app.use(session({
     secret: "This is a secret!",
-    resave:true,
+    cookie: { maxAge: 3600000 },
+    resave: false,
     saveUninitialized: false
 }));
+
 
 app.set("views", "views");
 app.set("view engine", "pug");
@@ -44,18 +46,27 @@ app.post("/register", urlencodedParser, function(req, res){
             });
 });
 
-app.get("/logout", function (req, res) {
-    res.render("logout");
+app.get("/logout", function(req, res) {
+    if(req.session.user!=null){
+        req.session.destroy(function (error) {       
+        res.render("logout", {Logout: "Sie wurden ausgeloggt."});
+        });
+    }
+    else{
+        res.render("logout", {Logout: "Sie waren gar nicht erst eingeloggt."});
+    }
 });
 
-//Zum Testen:
 app.post("/", urlencodedParser, function(req, res) {
     dbClient.query("SELECT * FROM users WHERE benutzer=$1 AND passwort=$2", [req.body.benutzer, req.body.passwort], function(dbError, dbResponse){
         if(dbResponse.rows.length===0){
             var fehler= "Benutzername bzw. Passwort falsch";
             res.render("index", {Fehler: fehler});
         }
-        else res.redirect("/search");
+        else{
+            req.session.user = req.body.benutzer;
+            res.redirect("/search");
+        }
     })
 });
 
