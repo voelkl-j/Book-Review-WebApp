@@ -76,9 +76,14 @@ app.get("/search", function (req, res) {
 
 app.get("/detail/:id", function(req, res){
     dbClient.query("SELECT * FROM books WHERE id=($1)", [req.params.id], function(dbError, dbResponse){
+        /**/
         res.render("detail", {Title: dbResponse.rows[0].title, Author: dbResponse.rows[0].author, Year: dbResponse.rows[0].year, Isbn: dbResponse.rows[0].isbn});
     });
 });
+/*
+app.post("/detail/:id", function(req, res){
+    res.redirect("/detail/" + req.params.id);
+});*/
 
 app.listen(PORT, function () {
     console.log(`Bookstore App listening on Port ${PORT}`);
