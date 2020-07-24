@@ -3,16 +3,17 @@ extends layout.pug
 
 block title
     title Detailseite
-block scripts
-    script(type="text/javascript" src="../public/js/cover.js")
-      
-    
+block script
+    script
+        include ../public/js/coverIm.js
+        
 block content
     h1 #{Title}
     div(class="container")
         img(id="cover")
-        p #{Title}
-        p geschrieben von #{Author}
+        p(id="title") #{Title}
+        p geschrieben von
+        span(id="author") #{Author}
         p aus dem Jahr #{Year}
         p ISBN: 
         span(id="isbn") #{Isbn}

@@ -5,10 +5,9 @@ $(document).ready(function () {
 
 function showCover() {
     var cover = $('#cover');
-    var isbn = $('#isbn').text();
-    var url;
-    $.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&maxResults=1&projection=lite", function (Request, Response) {
-        url = Response.items[0].imageLinks.thumbnail;
+    var title = $('#title').text();
+    var url="";
+    $.get("https://www.googleapis.com/books/v1/volumes?q=" + title + "&maxResults=1&projection=lite", function (request, response) {
+         cover.attr('src', request.items[0].volumeInfo.imageLinks.thumbnail);
     });
-    cover.attr('src', url);
 }

@@ -21,6 +21,8 @@ const PORT = 3000;
 
 var app = express();
 
+app.use(express.static("public"));
+
 app.use(session({
     secret: "This is a secret!",
     cookie: { maxAge: 3600000 },
@@ -31,6 +33,7 @@ app.use(session({
 
 app.set("views", "views");
 app.set("view engine", "pug");
+
 
 app.get("/", function (req, res) {
     res.render("index");
