@@ -76,15 +76,22 @@ app.post("/", urlencodedParser, function(req, res) {
 app.get("/search", function (req, res) {
     res.render("search");
 });
+app.post("/searchdata", urlencodedParser, function(req, res){
+    console.log(req.body.text);
+    res.setHeader("Content-Type", "application/json");
+    dbClient.query("SELECT * FROM books WHERE title ~*($1) OR author ~*($1) OR isbn ~*'($1)%' LIMIT 10", [req.body.text], function(dbError, dbResponse){
+        res.end(JSON.stringify({ books: dbResponse.rows}));
+    });
+});
 
 app.get("/detail/:id", function(req, res){
     dbClient.query("SELECT * FROM books WHERE id=($1)", [req.params.id], function(dbError, dbResponse){
-        /**/
         res.render("detail", {Title: dbResponse.rows[0].title, Author: dbResponse.rows[0].author, Year: dbResponse.rows[0].year, Isbn: dbResponse.rows[0].isbn});
     });
 });
-/*
-app.post("/detail/:id", function(req, res){
+
+/*app.post("/detail/:id", function(req, res){
+    console.log(req.params.id);
     res.redirect("/detail/" + req.params.id);
 });*/
 

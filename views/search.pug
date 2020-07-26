@@ -2,12 +2,15 @@ extends layout.pug
 
 block title
     title Login
+block script
+    script
+        include ../public/js/search.js
     
 block content
-    h1 Hier suchen:
-    form(action="/search" method="post")
-        div(class="form-group")
-            label Buchsuche
-            input(type="search" class="form-control" name="sucheingabe")
-            ul(class="list-group")
+    h1 Hier suchen:   
+    div(class="form-group")
+        label Buchsuche
+        input(type="text" class="form-control" name="sucheingabe" id="searchField")
+        ul(class="list-group" id="searchResults")
+    div(class="form-group")
         button(type="submit" class="btn btn-dark") Suchen
