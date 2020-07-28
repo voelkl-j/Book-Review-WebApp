@@ -22,6 +22,7 @@ function resultsRecieved(data) {
     //alert("Results recieved..." + data);
     var searchResults= $("#searchResults");
     searchResults.empty();
+  
     for(var i=0; i< data.books.length; i++){
         var book = $("<li></li>");
         var bookLink = $("<a></a>");

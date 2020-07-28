@@ -79,8 +79,11 @@ app.get("/search", function (req, res) {
 app.post("/searchdata", urlencodedParser, function(req, res){
     console.log(req.body.text);
     res.setHeader("Content-Type", "application/json");
-    dbClient.query("SELECT * FROM books WHERE title ~*($1) OR author ~*($1) OR isbn ~*'($1)%' LIMIT 10", [req.body.text], function(dbError, dbResponse){
+    var regEx = req.body.text+"%";
+    dbClient.query("SELECT * FROM books WHERE title ~*($1) OR author ~*($1) LIMIT 10", [req.body.text], function(dbError, dbResponse){
+        console.log(dbError);
         res.end(JSON.stringify({ books: dbResponse.rows}));
+       
     });
 });
 
@@ -90,10 +93,11 @@ app.get("/detail/:id", function(req, res){
     });
 });
 
-/*app.post("/detail/:id", function(req, res){
-    console.log(req.params.id);
+app.post("/detail/:id", urlencodedParser, function(req, res){
+    console.log(req.body.rating);
+    console.log(req.body.comment);
     res.redirect("/detail/" + req.params.id);
-});*/
+});
 
 app.listen(PORT, function () {
     console.log(`Bookstore App listening on Port ${PORT}`);

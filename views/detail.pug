@@ -6,22 +6,47 @@ block title
 block script
     script
         include ../public/js/coverIm.js
+        include ../public/js/review.js
+
         
 block content
     h1 #{Title}
     div(class="container")
-        img(id="cover")
-        p(id="title") #{Title}
-        p geschrieben von
-        span(id="author") #{Author}
-        p aus dem Jahr #{Year}
-        p ISBN: 
-        span(id="isbn") #{Isbn}
+        div(class="row  w-50 p-3")
+            div(class="col")
+                img(id="cover")
+            div(class="col")
+                p(id="title") #{Title}
+                p(class="d-inline") geschrieben von 
+                    p(id="author" class="d-inline") #{Author}
+                p aus dem Jahr #{Year}
+                p(class="d-inline") ISBN: 
+                    p(id="isbn" class="d-inline") #{Isbn}
     div(class="container")
-        h2 Hier könnte ihre Kritik stehen:
-        form(action="/detail/:id" method="post")
-            div(class="form-group")
-                label Kritik
-                input(type="text" class="form-control" name="review")
-                ul(class="list-group")
-            button(type="submit" class="btn btn-dark") Post
+        h3 Write your own review:
+        form(id="review" action="" method="post")
+            div(class="row w-50 p-3")
+                div(class="form-group col")
+                    label Rating:
+                    div(class="form-check form-check-inline")
+                        label(class="form-check-label")  1 
+                        input(class="form-check-input" type="radio" id="rating1" name="rating" value="1")
+                        div(class="form-check")
+                        label(class="form-check-label")  2  
+                        input(class="form-check-input" type="radio" id="rating2" name="rating" value="2")
+                        div(class="form-check")
+                        label(class="form-check-label")  3
+                        input(class="form-check-input" type="radio" id="rating3" name="rating" value="3")
+                        div(class="form-check")
+                        label(class="form-check-label")  4  
+                        input(class="form-check-input" type="radio" id="rating4" name="rating" value="4")
+                        div(class="form-check")
+                        label(class="form-check-label")  5 
+                        input(class="form-check-input" type="radio" id="rating5" name="rating" value="5")               
+                div(class="form-group col")
+                    label Comment:
+                    textarea(class="form-control" rows="5" id="reviewText" name="comment")
+            button(type="submit" class="btn btn-dark w-50 p-3") Post
+    div(class="container")
+        h3 Other reviews:
+        ul
