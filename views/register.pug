@@ -1,7 +1,7 @@
 extends layout.pug
 
 block title
-    title Registrierung
+    title Registration
 block script
     script
         include ../public/js/passwordCheck.js
@@ -10,11 +10,11 @@ block content
     h1 Hier registrieren:
     form(action="/register" method="post")
         div(class="form-group")
-            label Benutzername
+            label Username
             input(type="text" class="form-control" name="benutzer")
         div(class="form-group")
-            label Passwort
+            label Password
             input(type="password" class="form-control" name="passwort" id ="password")
-            p(id="passwordLength")
-            p(id="passwordDigit")
-        button(type="submit" class="btn btn-dark") Registrieren
+            p(id="passwordLength" class="text-danger")
+            p(id="passwordDigit" class="text-danger")
+        button(type="submit" class="btn btn-dark") Registrate

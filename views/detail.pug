@@ -2,7 +2,7 @@ extends layout.pug
 
 
 block title
-    title Detailseite
+    title Detailsite
 block script
     script
         include ../public/js/coverIm.js
@@ -22,6 +22,8 @@ block content
                 p aus dem Jahr #{Year}
                 p(class="d-inline") ISBN: 
                     p(id="isbn" class="d-inline") #{Isbn}
+                p(class="d-inline") Rating:
+                p #{RatingAvg}
     div(class="container")
         h3 Write your own review:
         form(id="review" action="" method="post")
@@ -49,4 +51,10 @@ block content
             button(type="submit" class="btn btn-dark w-50 p-3") Post
     div(class="container")
         h3 Other reviews:
-        ul
+        ul(class="list-group")
+            each review in reviews
+                li(class="list-group-item")
+                    p= review.rating
+                    p=review.text
+            else 
+                li(class="list-group-item") NO REVIEWS YET!

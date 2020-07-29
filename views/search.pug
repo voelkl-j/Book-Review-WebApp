@@ -1,7 +1,7 @@
 extends layout.pug
 
 block title
-    title Login
+    title Search
 block script
     script
         include ../public/js/search.js
@@ -9,8 +9,8 @@ block script
 block content
     h1 Hier suchen:   
     div(class="form-group")
-        label Buchsuche
+        label Search for your favorite books
         input(type="text" class="form-control" name="sucheingabe" id="searchField")
         ul(class="list-group" id="searchResults")
     div(class="form-group")
-        button(type="submit" class="btn btn-dark") Suchen
+        button(type="submit" class="btn btn-dark") Search
