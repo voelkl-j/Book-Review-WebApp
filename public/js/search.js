@@ -1,7 +1,6 @@
 $(document).ready(
     function(){
         $("#searchField").keyup(fetchJSONData);
-        console.log("works");
     }
 );
 
@@ -19,9 +18,14 @@ function fetchJSONData(Event) {
 }
 
 function resultsRecieved(data) {
-    //alert("Results recieved..." + data);
     var searchResults= $("#searchResults");
     searchResults.empty();
+    
+    if(data.books.length==0){
+        var book = $("<li></li>");
+        book.html("No Match. Sorry!");
+        searchResults.append(book);
+    }
   
     for(var i=0; i< data.books.length; i++){
         var book = $("<li></li>");
@@ -31,7 +35,6 @@ function resultsRecieved(data) {
         bookLink.attr("href", link);
         book.append(bookLink);
         searchResults.append(book);
-        console.log(data);
     }
     
 }

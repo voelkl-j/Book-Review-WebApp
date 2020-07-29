@@ -26,6 +26,7 @@ app.use(session({
 }));
 app.set("views", "views");
 app.set("view engine", "pug");
+
 app.get("/", function (req, res) {
     res.render("index");
 });
@@ -33,7 +34,7 @@ app.get("/register", function (req, res) {
     res.render("register");
 });
 app.post("/register", urlencodedParser, function (req, res) {
-    dbClient.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.benutzer, req.body.passwort], function (dbError, dbResponse) {
+    dbClient.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.username, req.body.password], function (dbError, dbResponse) {
         res.render("registersuccess");
     });
 });
@@ -52,11 +53,11 @@ app.get("/logout", function (req, res) {
     }
 });
 app.post("/", urlencodedParser, function (req, res) {
-    dbClient.query("SELECT * FROM users WHERE username=$1 AND password=$2", [req.body.benutzer, req.body.passwort], function (dbError, dbResponse) {
+    dbClient.query("SELECT * FROM users WHERE username=$1 AND password=$2", [req.body.username, req.body.password], function (dbError, dbResponse) {
         if (dbResponse.rows.length === 0) {
             var fehler = "Username or Password incorrect";
             res.render("index", {
-                Fehler: fehler
+                ErrorMessage: fehler
             });
         }
         else {
@@ -69,10 +70,8 @@ app.get("/search", function (req, res) {
     res.render("search");
 });
 app.post("/searchdata", urlencodedParser, function (req, res) {
-    console.log(req.body.text);
     res.setHeader("Content-Type", "application/json");
-    var regEx = req.body.text + "%";
-    dbClient.query("SELECT * FROM books WHERE title ~*($1) OR author ~*($1) LIMIT 10", [req.body.text], function (dbError, dbResponse) {
+    dbClient.query("SELECT * FROM books WHERE isbn LIKE ($2) OR title ~*($1) OR author ~*($1) LIMIT 10", [req.body.text, req.body.text + "%"], function (dbError, dbResponse) {
         console.log(dbError);
         res.end(JSON.stringify({
             books: dbResponse.rows
@@ -97,6 +96,9 @@ app.get("/detail/:id", function (req, res) {
         }
         average = average / i;
         average = average.toFixed(2);
+        if (average == "NaN") {
+            average = "No ratings yet!";
+        }
         res.render("detail", {
             Title: title
             , Author: author
@@ -111,9 +113,15 @@ app.post("/detail/:id", urlencodedParser, function (req, res) {
     var username = req.session.user;
     var id = req.params.id;
     if (username != null) {
-        dbClient.query("INSERT INTO reviews (reviewauthor, bookid, rating, text) VALUES ($1, $2, $3, $4)", [username, id, req.body.rating, req.body.comment], function (dbError, dbResponse) {});
+        dbClient.query("INSERT INTO reviews (reviewauthor, bookid, rating, text) VALUES ($1, $2, $3, $4)", [username, id, req.body.rating, req.body.comment], function (dbError, dbResponse) {
+            if (dbError != null) {
+                console.log("Review already submitted before.")
+            }
+        });
     }
-    else console.log("usererror");
+    else {
+        console.log("User not logged in.");
+    }
     res.redirect("/detail/" + req.params.id);
 });
 app.listen(PORT, function () {

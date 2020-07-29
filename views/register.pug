@@ -7,14 +7,15 @@ block script
         include ../public/js/passwordCheck.js
     
 block content
-    h1 Hier registrieren:
-    form(action="/register" method="post")
-        div(class="form-group")
-            label Username
-            input(type="text" class="form-control" name="benutzer")
-        div(class="form-group")
-            label Password
-            input(type="password" class="form-control" name="passwort" id ="password")
-            p(id="passwordLength" class="text-danger")
-            p(id="passwordDigit" class="text-danger")
-        button(type="submit" class="btn btn-dark") Registrate
+    div(class="container w-50 float-left")
+        h1 Register here:
+        form(action="/register" method="post")
+            div(class="form-group")
+                label Username
+                input(type="text" class="form-control" name="username")
+            div(class="form-group")
+                label Password
+                input(type="password" class="form-control" name="password" id ="password")
+                p(id="passwordLength" class="text-danger")
+                p(id="passwordDigit" class="text-danger")
+            button(type="submit" class="btn btn-dark") Registrate

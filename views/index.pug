@@ -4,13 +4,14 @@ block title
     title Login
     
 block content
-    h1 Hier einloggen:
-    form(action="/" method="post")
-        div(class="form-group")
-            label Username
-            input(type="text" class="form-control" name="benutzer")
-        div(class="form-group")
-            label Password
-            input(type="password" class="form-control" name="passwort")
-            p(class="form-text text-danger") #{Fehler}
-        button(type="submit" class="btn btn-dark") Login
+    div(class="container w-50 float-left")
+        h1 Login:
+        form(action="/" method="post")
+            div(class="form-group")
+                label Username
+                input(type="text" class="form-control" name="username")
+            div(class="form-group")
+                label Password
+                input(type="password" class="form-control" name="password")
+                p(class="form-text text-danger") #{ErrorMessage}
+            button(type="submit" class="btn btn-dark") Login
