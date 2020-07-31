@@ -26,12 +26,23 @@ app.use(session({
 }));
 app.set("views", "views");
 app.set("view engine", "pug");
-
 app.get("/", function (req, res) {
-    res.render("index");
+    var username;
+    if (req.session.user != null) {
+        username = req.session.user;
+    }
+    res.render("index", {
+        Username: username
+    });
 });
 app.get("/register", function (req, res) {
-    res.render("register");
+    var username;
+    if (req.session.user != null) {
+        username = req.session.user;
+    }
+    res.render("register", {
+        Username: username
+    });
 });
 app.post("/register", urlencodedParser, function (req, res) {
     dbClient.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.username, req.body.password], function (dbError, dbResponse) {
@@ -67,7 +78,13 @@ app.post("/", urlencodedParser, function (req, res) {
     })
 });
 app.get("/search", function (req, res) {
-    res.render("search");
+    var username;
+    if (req.session.user != null) {
+        username = req.session.user;
+    }
+    res.render("search", {
+        Username: username
+    });
 });
 app.post("/searchdata", urlencodedParser, function (req, res) {
     res.setHeader("Content-Type", "application/json");
@@ -78,6 +95,10 @@ app.post("/searchdata", urlencodedParser, function (req, res) {
     });
 });
 app.get("/detail/:id", function (req, res) {
+    var username;
+    if (req.session.user != null) {
+        username = req.session.user;
+    }
     var title;
     var author;
     var year;
@@ -99,7 +120,8 @@ app.get("/detail/:id", function (req, res) {
             average = "No ratings yet!";
         }
         res.render("detail", {
-            Title: title
+            Username: username
+            , Title: title
             , Author: author
             , Year: year
             , Isbn: isbn
