@@ -61,7 +61,7 @@ app.post("/", urlencodedParser, function (req, res) {
             });
         }
         else {
-            req.session.user = req.body.benutzer;
+            req.session.user = req.body.username;
             res.redirect("/search");
         }
     })
@@ -72,7 +72,6 @@ app.get("/search", function (req, res) {
 app.post("/searchdata", urlencodedParser, function (req, res) {
     res.setHeader("Content-Type", "application/json");
     dbClient.query("SELECT * FROM books WHERE isbn LIKE ($2) OR title ~*($1) OR author ~*($1) LIMIT 10", [req.body.text, req.body.text + "%"], function (dbError, dbResponse) {
-        console.log(dbError);
         res.end(JSON.stringify({
             books: dbResponse.rows
         }));

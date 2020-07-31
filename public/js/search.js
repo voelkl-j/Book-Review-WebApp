@@ -23,12 +23,16 @@ function resultsRecieved(data) {
     
     if(data.books.length==0){
         var book = $("<li></li>");
+        book.addClass("list-group-item");
+        book.addClass("text-danger");
         book.html("No Match. Sorry!");
         searchResults.append(book);
     }
   
     for(var i=0; i< data.books.length; i++){
         var book = $("<li></li>");
+        book.addClass("list-group-item");
+        //book.addClass("w-75");
         var bookLink = $("<a></a>");
         bookLink.html(data.books[i].title);
         var link= "/detail/" + data.books[i].id;
